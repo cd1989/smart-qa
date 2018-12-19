@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20181219 05:53:02.094" generator="Robot 3.0.4 (Python 2.7.15 on linux2)">
+<suite source="/opt/robotframework/tests" id="s1" name="Tests">
+<suite source="/opt/robotframework/tests/cargo" id="s1-s1" name="Cargo">
+<suite source="/opt/robotframework/tests/cargo/api" id="s1-s1-s1" name="Api">
+<suite source="/opt/robotframework/tests/cargo/api/api.robot" id="s1-s1-s1-s1" name="Api">
+<test id="s1-s1-s1-s1-t1" name="Hello World">
+<kw name="No Operation" library="BuiltIn">
+<doc>Does absolutely nothing.</doc>
+<status status="PASS" endtime="20181219 05:53:02.137" starttime="20181219 05:53:02.137"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>cargo</tag>
+<tag>dummy</tag>
+</tags>
+<status status="PASS" endtime="20181219 05:53:02.137" critical="yes" starttime="20181219 05:53:02.136"></status>
+</test>
+<status status="PASS" endtime="20181219 05:53:02.138" starttime="20181219 05:53:02.133"></status>
+</suite>
+<status status="PASS" endtime="20181219 05:53:02.140" starttime="20181219 05:53:02.131"></status>
+</suite>
+<suite source="/opt/robotframework/tests/cargo/ui" id="s1-s1-s2" name="Ui">
+<suite source="/opt/robotframework/tests/cargo/ui/ui.robot" id="s1-s1-s2-s1" name="Ui">
+<test id="s1-s1-s2-s1-t1" name="Login">
+<kw name="Open Login Page" library="ui">
+<doc>Opens browser to login page</doc>
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the given ``url``.</doc>
+<arguments>
+<arg>${LOGIN URL}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20181219 05:53:02.405" level="INFO">Opening browser 'Chrome' to base url 'https://localhost/harbor/sign-in'.</msg>
+<status status="PASS" endtime="20181219 05:53:08.053" starttime="20181219 05:53:02.405"></status>
+</kw>
+<kw name="Title Should Be" library="SeleniumLibrary">
+<doc>Verifies that current page title equals ``title``.</doc>
+<arguments>
+<arg>Login Page</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes screenshot of the current page and embeds it into log file.</doc>
+<msg timestamp="20181219 05:53:08.194" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20181219 05:53:08.195" starttime="20181219 05:53:08.089"></status>
+</kw>
+<msg timestamp="20181219 05:53:08.199" level="FAIL">Title should have been 'Login Page' but was 'localhost'.</msg>
+<status status="FAIL" endtime="20181219 05:53:08.199" starttime="20181219 05:53:08.053"></status>
+</kw>
+<status status="FAIL" endtime="20181219 05:53:08.199" starttime="20181219 05:53:02.404"></status>
+</kw>
+<tags>
+<tag>cargo</tag>
+<tag>ui</tag>
+</tags>
+<status status="FAIL" endtime="20181219 05:53:08.200" critical="yes" starttime="20181219 05:53:02.401">Title should have been 'Login Page' but was 'localhost'.</status>
+</test>
+<status status="FAIL" endtime="20181219 05:53:08.201" starttime="20181219 05:53:02.143"></status>
+</suite>
+<status status="FAIL" endtime="20181219 05:53:08.207" starttime="20181219 05:53:02.141"></status>
+</suite>
+<doc>Cargo Test Suite</doc>
+<metadata>
+<item name="Executed At">${HOST}</item>
+</metadata>
+<status status="FAIL" endtime="20181219 05:53:08.212" starttime="20181219 05:53:02.128"></status>
+</suite>
+<status status="FAIL" endtime="20181219 05:53:08.216" starttime="20181219 05:53:02.097"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="1">Critical Tests</stat>
+<stat fail="1" pass="1">All Tests</stat>
+</total>
+<tag>
+<stat fail="0" pass="1">api</stat>
+<stat fail="1" pass="1">cargo</stat>
+<stat fail="0" pass="1">dummy</stat>
+<stat fail="1" pass="0">ui</stat>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="Tests" pass="1">Tests</stat>
+<stat fail="1" id="s1-s1" name="Cargo" pass="1">Tests.Cargo</stat>
+<stat fail="0" id="s1-s1-s1" name="Api" pass="1">Tests.Cargo.Api</stat>
+<stat fail="0" id="s1-s1-s1-s1" name="Api" pass="1">Tests.Cargo.Api.Api</stat>
+<stat fail="1" id="s1-s1-s2" name="Ui" pass="0">Tests.Cargo.Ui</stat>
+<stat fail="1" id="s1-s1-s2-s1" name="Ui" pass="0">Tests.Cargo.Ui.Ui</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
