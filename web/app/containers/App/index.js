@@ -1,6 +1,9 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import {Link, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {Breadcrumb, Icon, Layout, Menu} from 'antd';
+import EnvironmentPage from 'containers/EnvironmentPage/Loadable';
+import ExecutePage from 'containers/ExecutePage/Loadable';
 
 const {Header, Content, Sider} = Layout;
 
@@ -14,8 +17,10 @@ const styles = {
   },
 };
 
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
+    const {location} = this.props;
+
     return (
       <Layout>
         <Header className="header">
@@ -25,17 +30,21 @@ export default class App extends React.Component {
           <Sider width={200} style={{background: '#fff'}}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              defaultSelectedKeys={[location.pathname]}
+              defaultOpenKeys={['location.pathname']}
               style={{height: '100%', borderRight: 0}}
             >
-              <Menu.Item key="1">
-                <Icon type="pie-chart"/>
-                <span>环境管理</span>
+              <Menu.Item key="/environments">
+                <Link to="/environments">
+                  <Icon type="laptop"/>
+                  <span>环境管理</span>
+                </Link>
               </Menu.Item>
-              <Menu.Item key="2">
-                <Icon type="desktop"/>
-                <span>执行测试</span>
+              <Menu.Item key="/executes">
+                <Link to="/executes">
+                  <Icon type="play-circle"/>
+                  <span>执行测试</span>
+                </Link>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -47,7 +56,12 @@ export default class App extends React.Component {
               background: '#fff', padding: 24, margin: 0, minHeight: 280,
             }}
             >
-              Content
+              <Switch>
+                <Route exact path="/" component={EnvironmentPage}/>
+                <Route path="/environments" component={EnvironmentPage}/>
+                <Route path="/executes" component={ExecutePage}/>
+                <Redirect to="/"/>
+              </Switch>
             </Content>
           </Layout>
         </Layout>
@@ -55,3 +69,9 @@ export default class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  location: PropTypes.object.isRequired,
+};
+
+export default withRouter(App);
