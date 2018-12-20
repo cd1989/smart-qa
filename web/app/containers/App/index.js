@@ -46,6 +46,12 @@ class App extends React.Component {
                   <span>执行测试</span>
                 </Link>
               </Menu.Item>
+              <Menu.Item key="/cases">
+                <Link to="/cases">
+                  <Icon type="read"/>
+                  <span>添加用例</span>
+                </Link>
+              </Menu.Item>
             </Menu>
           </Sider>
           <Layout style={{padding: '0 24px 24px'}}>

@@ -1,5 +1,14 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createSelector} from 'reselect';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import {Button, Table} from 'antd';
+import {loadData} from './actions';
+import {initialState, reducer} from './reducer';
+
+import saga from './saga';
 
 const styles = {
   button: {
@@ -8,9 +17,13 @@ const styles = {
 };
 
 /* eslint-disable react/prefer-stateless-function */
-export default class EnvironmentPage extends React.Component {
+class EnvironmentPage extends React.Component {
   state = {
     selectedRowKeys: [],
+  };
+
+  componentDidMount = () => {
+    this.props.dispatch(loadData());
   };
 
   onSelectChange = selectedRowKeys => {
@@ -26,6 +39,7 @@ export default class EnvironmentPage extends React.Component {
   }
 
   render() {
+    const { environments } = this.props;
     const {selectedRowKeys} = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -34,37 +48,27 @@ export default class EnvironmentPage extends React.Component {
     const hasSelected = selectedRowKeys.length > 0;
 
     const columns = [{
-      title: 'Name',
+      title: '名称',
       dataIndex: 'name',
       render: text => <a href="javascript:;">{text}</a>,
     }, {
-      title: 'Age',
-      dataIndex: 'age',
-    }, {
-      title: 'Address',
+      title: '地址',
       dataIndex: 'address',
+    }, {
+      title: '镜像仓库',
+      dataIndex: 'registry',
+    }, {
+      title: '添加时间',
+      dataIndex: 'creationTime',
     }];
-    const data = [{
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    }, {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    }, {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    }, {
-      key: '4',
-      name: 'Disabled User',
-      age: 99,
-      address: 'Sidney No. 1 Lake Park',
-    }];
+
+    const data = environments.data.toJS().map(env => ({
+      key: env.name,
+      name: env.name,
+      address: env.address,
+      registry: env.registry,
+      creationTime: env.creation_time,
+    }));
 
     return (
       <div>
@@ -86,3 +90,20 @@ export default class EnvironmentPage extends React.Component {
     );
   }
 }
+
+const mapStateToProps = createSelector(
+  state => state.get('environments', initialState),
+  environments => ({
+    environments: environments.toObject(),
+  })
+);
+
+const withReducer = injectReducer({key: 'environments', reducer});
+const withSaga = injectSaga({key: 'environments', saga});
+const withConnect = connect(mapStateToProps);
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(EnvironmentPage);
