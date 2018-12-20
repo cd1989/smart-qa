@@ -23,4 +23,44 @@ router.get('/environments', (req, res) => {
     });
 });
 
+// Add new environment
+router.post('/environments', (req, res) => {
+  axios
+    .post(`${config.apiService}/api/environments`, req.body)
+    .then(response => {
+      if (response.status / 100 === 2) {
+        res.json(response.data);
+      } else {
+        res.status(response.status).end();
+      }
+    })
+    .catch(error => {
+      if (error.response) {
+        res.status(error.response.status).end(error.response.data);
+      } else {
+        res.status(500).end('error');
+      }
+    });
+});
+
+// Delete environment
+router.delete('/environments/:name', (req, res) => {
+  axios
+    .delete(`${config.apiService}/api/environments/${req.params.name}`)
+    .then(response => {
+      if (response.status / 100 === 2) {
+        res.json(response.data);
+      } else {
+        res.status(response.status).end();
+      }
+    })
+    .catch(error => {
+      if (error.response) {
+        res.status(error.response.status).end(error.response.data);
+      } else {
+        res.status(500).end('error');
+      }
+    });
+});
+
 module.exports = router;

@@ -1,5 +1,11 @@
 import { fromJS } from 'immutable';
-import { LOAD_DATA, LOAD_DATA_SUCCEED, LOAD_DATA_ERROR } from './constants';
+import {
+  LOAD_DATA,
+  LOAD_DATA_SUCCEED,
+  LOAD_DATA_ERROR,
+  ADD_NEW_ENV,
+  OPERATE_ERROR,
+  DELETE_ENVS } from './constants';
 
 export const initialState = fromJS({
   error: false,
@@ -23,6 +29,13 @@ export function reducer(state = initialState, action) {
         .set('processing', false)
         .set('error', action.error)
         .set('data', []);
+    case ADD_NEW_ENV:
+      return state;
+    case DELETE_ENVS:
+      return state;
+    case OPERATE_ERROR:
+      return state
+        .set('error', action.error);
     default:
       return state;
   }

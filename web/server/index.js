@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('./logger');
+const bodyParser = require('body-parser');
 
 const argv = require('./argv');
 const port = require('./port');
@@ -14,6 +15,8 @@ const ngrok =
 const { resolve } = require('path');
 const api = require('../backend/api');
 const app = express();
+
+app.use(bodyParser.json());
 
 // Backend apis, all requests with '/api' prefix. Note this should be placed
 // before 'setup(app, ...)', otherwise GET requests won't arrive here.

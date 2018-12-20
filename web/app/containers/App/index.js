@@ -4,6 +4,7 @@ import {Link, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {Breadcrumb, Icon, Layout, Menu} from 'antd';
 import EnvironmentPage from 'containers/EnvironmentPage/Loadable';
 import ExecutePage from 'containers/ExecutePage/Loadable';
+import CasePage from 'containers/CasePage/Loadable';
 
 const {Header, Content, Sider} = Layout;
 
@@ -30,7 +31,7 @@ class App extends React.Component {
           <Sider width={200} style={{background: '#fff'}}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={[location.pathname]}
+              defaultSelectedKeys={[location.pathname === '/'? '/environments': location.pathname]}
               defaultOpenKeys={['location.pathname']}
               style={{height: '100%', borderRight: 0}}
             >
@@ -66,6 +67,7 @@ class App extends React.Component {
                 <Route exact path="/" component={EnvironmentPage}/>
                 <Route path="/environments" component={EnvironmentPage}/>
                 <Route path="/executes" component={ExecutePage}/>
+                <Route path="/cases" component={CasePage}/>
                 <Redirect to="/"/>
               </Switch>
             </Content>

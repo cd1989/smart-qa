@@ -4,8 +4,8 @@ import {compose} from 'redux';
 import {createSelector} from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import {Button, Table} from 'antd';
-import {loadData} from './actions';
+import {Button, Modal, Table, Form, Input} from 'antd';
+import {loadData, newEnvironment, deleteEnvironments} from './actions';
 import {initialState, reducer} from './reducer';
 
 import saga from './saga';
@@ -16,10 +16,26 @@ const styles = {
   },
 };
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 4 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
+
 /* eslint-disable react/prefer-stateless-function */
 class EnvironmentPage extends React.Component {
   state = {
     selectedRowKeys: [],
+    newDialogVisible: false,
+    newConfirmLoading: false,
+    name: '',
+    address: '',
+    registry: '',
   };
 
   componentDidMount = () => {
@@ -28,19 +44,37 @@ class EnvironmentPage extends React.Component {
 
   onSelectChange = selectedRowKeys => {
     this.setState({selectedRowKeys});
-  }
+  };
+
+  onNewDialogCancel = () => {
+    this.setState({newDialogVisible: false});
+  };
+
+  onNewDialogConfirm = () => {
+    this.setState({newDialogVisible: false});
+    this.props.dispatch(newEnvironment({
+      name: this.state.name,
+      address: this.state.address,
+      registry: this.state.registry,
+    }));
+  };
+
+  onInputChange = field => event => {
+    this.setState({[field]: event.target.value});
+  };
 
   onNew = () => {
-    console.log('new...');
-  }
+    this.setState({newDialogVisible: true});
+  };
 
   onDelete = () => {
-    console.log('delete...');
-  }
+    console.log(this.state.selectedRowKeys);
+    this.props.dispatch(deleteEnvironments(this.state.selectedRowKeys));
+  };
 
   render() {
     const { environments } = this.props;
-    const {selectedRowKeys} = this.state;
+    const { selectedRowKeys, newDialogVisible, newConfirmLoading } = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -86,6 +120,31 @@ class EnvironmentPage extends React.Component {
           </Button>
         </div>
         <Table rowSelection={rowSelection} columns={columns} dataSource={data}/>
+
+        <Modal
+          title="新增环境"
+          visible={newDialogVisible}
+          onOk={this.onNewDialogConfirm}
+          confirmLoading={newConfirmLoading}
+          onCancel={this.onNewDialogCancel}>
+          <div>
+            <Form.Item
+              {...formItemLayout}
+              label="名称">
+              <Input onChange={this.onInputChange('name')} />
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="地址">
+              <Input onChange={this.onInputChange('address')} />
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              label="镜像仓库">
+              <Input onChange={this.onInputChange('registry')} />
+            </Form.Item>
+          </div>
+        </Modal>
       </div>
     );
   }
