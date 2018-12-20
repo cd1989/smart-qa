@@ -5,7 +5,7 @@ import { runTestSucceed, opError } from './actions';
 
 export function* runTest(action) {
   try {
-    const result = yield call(() => axios.post(`/api/execute/${action.suite}`));
+    const result = yield call(() => axios.post('/api/execute', action.data));
     yield put(runTestSucceed(result.data));
   } catch (err) {
     yield put(opError(err));

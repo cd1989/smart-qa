@@ -8,4 +8,3 @@ func (c *HealthController) Ping() {
 	c.Data["json"] = "pong"
 	c.ServeJSON()
 }
-

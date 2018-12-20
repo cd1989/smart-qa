@@ -1,9 +1,9 @@
 import { RUN_TEST, RUN_TEST_SUCCESS, OPERATION_ERROR } from './constants';
 
-export function runTest(suite) {
+export function runTest(data) {
   return {
     type: RUN_TEST,
-    suite,
+    data,
   };
 }
 

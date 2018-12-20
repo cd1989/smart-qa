@@ -63,4 +63,24 @@ router.delete('/environments/:name', (req, res) => {
     });
 });
 
+// Run test
+router.post('/execute', (req, res) => {
+  axios
+    .post(`${config.apiService}/api/execute`, req.body)
+    .then(response => {
+      if (response.status / 100 === 2) {
+        res.json(response.data);
+      } else {
+        res.status(response.status).end();
+      }
+    })
+    .catch(error => {
+      if (error.response) {
+        res.status(error.response.status).end(error.response.data);
+      } else {
+        res.status(500).end('error');
+      }
+    });
+});
+
 module.exports = router;

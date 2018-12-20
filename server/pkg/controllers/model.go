@@ -7,8 +7,13 @@ type DataResponse struct {
 }
 
 type Environment struct {
-	Name string `json:"name"`
-	Address string `json:"address"`
-	Registry string `json:"registry"`
+	Name       string    `json:"name"`
+	Address    string    `json:"address"`
+	Registry   string    `json:"registry"`
 	CreateTime time.Time `json:"creation_time,omitempty"`
+}
+
+type TestRequst struct {
+	Environment string `json:"envName"`
+	Suite       string `json:"testSuite"`
 }

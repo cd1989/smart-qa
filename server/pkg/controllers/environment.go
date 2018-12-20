@@ -10,28 +10,28 @@ type EnvironmentController struct {
 
 var environments = []Environment{
 	{
-		Name: "devops-dev",
-		Address: "192.168.19.96:6060",
-		Registry: "test.caicloudprivatetest.com",
+		Name:       "devops-dev",
+		Address:    "192.168.19.96:6060",
+		Registry:   "test.caicloudprivatetest.com",
 		CreateTime: time.Now(),
 	},
 	{
-		Name: "qa-30",
-		Address: "cps-30.platform-qa.io",
-		Registry: "test.caicloudprivatetest.com",
+		Name:       "qa-30",
+		Address:    "cps-30.platform-qa.io",
+		Registry:   "test.caicloudprivatetest.com",
 		CreateTime: time.Now(),
 	},
 	{
-		Name: "qa-40",
-		Address: "cps-30.platform-qa.io",
-		Registry: "test.caicloudprivatetest.com",
+		Name:       "qa-40",
+		Address:    "cps-30.platform-qa.io",
+		Registry:   "test.caicloudprivatetest.com",
 		CreateTime: time.Now(),
 	},
 }
 
 func (c *EnvironmentController) List() {
-	c.Data["json"] = environments;
-	c.ServeJSON();
+	c.Data["json"] = environments
+	c.ServeJSON()
 }
 
 func (c *EnvironmentController) Add() {
