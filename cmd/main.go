@@ -22,7 +22,7 @@ func initLog() {
 	log.SetLevel(log.DebugLevel)
 	log.SetFormatter(&log.TextFormatter{
 		DisableColors: false,
-		ForceColors:   true,
+		ForceColors:   false,
 		FullTimestamp: true,
 	})
 	log.SetOutput(os.Stdout)

@@ -32,13 +32,13 @@ var environments = []Environment{
 }
 
 func (c *EnvironmentController) List() {
-	log.Debug("List environments");
+	log.Debug("List environments")
 	c.Data["json"] = environments
 	c.ServeJSON()
 }
 
 func (c *EnvironmentController) Add() {
-	log.Debug("Add environments");
+	log.Debug("Add environments")
 	var environment Environment
 	c.DecodeJSONReq(&environment)
 	environment.CreateTime = time.Now()
@@ -47,7 +47,7 @@ func (c *EnvironmentController) Add() {
 
 func (c *EnvironmentController) Delete() {
 	name := c.Ctx.Input.Param(":name")
-	log.WithField("name", name).Debug("Delete environments");
+	log.WithField("name", name).Debug("Delete environments")
 
 	var envs []Environment
 	for _, e := range environments {

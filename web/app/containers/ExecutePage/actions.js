@@ -1,4 +1,4 @@
-import { RUN_TEST, RUN_TEST_SUCCESS, OPERATION_ERROR } from './constants';
+import { RUN_TEST, RUN_TEST_SUCCESS, OPERATION_ERROR, LOAD_RECORDS, LOAD_RECORDS_SUCCEED } from './constants';
 
 export function runTest(data) {
   return {
@@ -19,4 +19,18 @@ export function opError(error) {
     type: OPERATION_ERROR,
     error,
   }
+}
+
+export function loadRecords(environment) {
+  return {
+    type: LOAD_RECORDS,
+    environment,
+  };
+}
+
+export function loadRecordsSucceed(data) {
+  return {
+    type: LOAD_RECORDS_SUCCEED,
+    data,
+  };
 }

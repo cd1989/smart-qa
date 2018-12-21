@@ -4,6 +4,8 @@ services:
     image: smart-server:v0.1.0
     container_name: smart-server
     restart: always
+    ports:
+      - 7777:8080
     networks:
       - smart
   web:

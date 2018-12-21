@@ -1,31 +1,75 @@
 package controllers
 
 import (
+	"net/http"
 	"os/exec"
 
 	log "github.com/sirupsen/logrus"
-	"net/http"
+	"strconv"
+	"time"
 )
 
-const TEST_RUNNER = "/workspace/runner.sh"
+const (
+	TEST_RUNNER = "/workspace/runner.sh"
+)
 
 type TestController struct {
 	BaseController
 }
 
+var idCounter int64
+var records []Record
+
 func (c *TestController) Execute() {
 	var request TestRequst
 	c.DecodeJSONReq(&request)
 	log.WithField("environment", request.Environment).WithField("suite", request.Suite).Info("Execute test")
+
+	idCounter++
+	record := Record{
+		ID:          strconv.FormatInt(idCounter, 10),
+		Environment: request.Environment,
+		Suite:       request.Suite,
+		TestTime:    time.Now(),
+	}
+
 	cmd := exec.Command(TEST_RUNNER, request.Suite)
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.WithField("environment", request.Environment).WithField("suite", request.Suite).Error("run test suite error: ", err)
 		c.RenderError(http.StatusInternalServerError, err.Error())
+		record.Succeed = false
+		records = append(records, record)
+		return
+	}
+	record.Succeed = true
+	log.Debug(string(out))
+
+	records = append(records, record)
+
+	c.Data["json"] = DataResponse{Data: string(out)}
+	c.ServeJSON()
+}
+
+// List test records
+func (c *TestController) List() {
+	environment := c.GetString("environment")
+	log.WithField("environment", environment).Info("Get test records")
+
+	if environment == "" {
+		c.Data["json"] = records
+		c.ServeJSON()
 		return
 	}
 
-	c.Data["json"] = DataResponse{Data: string(out)}
+	var results []Record
+	for _, r := range records {
+		if r.Environment == environment {
+			results = append(results, r)
+		}
+	}
+
+	c.Data["json"] = results
 	c.ServeJSON()
 }
