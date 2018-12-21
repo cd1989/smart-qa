@@ -1,40 +1,31 @@
 # Smart QA
 
+Smart QA helps you to test your applications automatically.
+
 ## Quick Start
 
 ### Build
 
 ```bash
-$ make container-local
+$ make container
 ```
 
 ### Run
 
 ```bash
-$ docker run -d -p 8080:8080 smart-server:v0.1.0
+$ docker-compose -f docker-compose.yml up -d
 ```
+
+Then access from `http://localhost:8888`
 
 ## Components
 
 ### Server
 
-Server provides APIs to trigger tests.
-
-#### Trigger Test
-
-```
-POST /api/exec/<suite>
-```
-
-For example, `/api/exec/cargo`.
-
-#### Fetch Result
-
-After test is executed, test results are served as static files
-in path `/reports/<suite>`, results are html format files, access
-them with your browsers.
+Server provides RESTful APIs to manage environments, test cases and trigger tests.
 
 ### Web
 
-Web provides UI interfaces for users to manage cluster environments,
-and triggers tests.
+Web provides UI interfaces for this auto test platform.
+
+![UI Screenshot](./docs/images/screenshot.png)

@@ -9,10 +9,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
 	log "github.com/sirupsen/logrus"
-
-	"zer0one/clever/core/pkg/common"
-	"zer0one/clever/core/pkg/filters"
-	"zer0one/clever/core/pkg/models"
 )
 
 const (
@@ -203,19 +199,4 @@ func (b *BaseController) GetPaginationParams() (page, pageSize int64) {
 	}
 
 	return page, pageSize
-}
-
-// GetUser gets user from the request context.
-func (b *BaseController) GetUser() (*models.User, error) {
-	v := b.Ctx.Request.Context().Value(common.SecurityCtxKey)
-	if v == nil {
-		return nil, fmt.Errorf("no '%s' key in the request context, may not logged in", common.SecurityCtxKey)
-	}
-
-	securityCtx, ok := v.(*filters.SecurityContext)
-	if !ok {
-		return nil, fmt.Errorf("invalid security context, %v", v)
-	}
-
-	return securityCtx.User, nil
 }

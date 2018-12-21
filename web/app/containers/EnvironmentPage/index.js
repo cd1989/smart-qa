@@ -96,7 +96,7 @@ class EnvironmentPage extends React.Component {
       dataIndex: 'creationTime',
     }];
 
-    const data = environments.data.toJS().map(env => ({
+    const data = environments.data.map(env => ({
       key: env.name,
       name: env.name,
       address: env.address,
@@ -153,7 +153,7 @@ class EnvironmentPage extends React.Component {
 const mapStateToProps = createSelector(
   state => state.get('environments', initialState),
   environments => ({
-    environments: environments.toObject(),
+    environments: environments.toJS(),
   })
 );
 

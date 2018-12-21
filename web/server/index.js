@@ -13,14 +13,13 @@ const ngrok =
     ? require('ngrok')
     : false;
 const { resolve } = require('path');
-const api = require('../backend/api');
 const app = express();
 
 app.use(bodyParser.json());
 
 // Backend apis, all requests with '/api' prefix. Note this should be placed
 // before 'setup(app, ...)', otherwise GET requests won't arrive here.
-app.use('/api', api);
+// app.use('/api', api);
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
