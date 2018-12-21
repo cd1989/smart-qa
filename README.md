@@ -2,6 +2,8 @@
 
 Smart QA helps you to test your applications automatically.
 
+![UI Screenshot](./docs/images/screenshot2.png)
+
 ## Quick Start
 
 ### Build

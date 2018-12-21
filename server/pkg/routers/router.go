@@ -14,4 +14,5 @@ func InitRouters() {
 	beego.Router("/api/environments/:name", &controllers.EnvironmentController{}, "delete:Delete")
 
 	beego.Router("/api/records", &controllers.TestController{}, "get:List")
+	beego.Router("/api/records/:id", &controllers.TestController{}, "delete:Delete")
 }

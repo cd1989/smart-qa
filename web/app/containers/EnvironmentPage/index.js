@@ -68,7 +68,6 @@ class EnvironmentPage extends React.Component {
   };
 
   onDelete = () => {
-    console.log(this.state.selectedRowKeys);
     this.props.dispatch(deleteEnvironments(this.state.selectedRowKeys));
   };
 

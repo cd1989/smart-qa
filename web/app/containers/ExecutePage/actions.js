@@ -1,4 +1,11 @@
-import { RUN_TEST, RUN_TEST_SUCCESS, OPERATION_ERROR, LOAD_RECORDS, LOAD_RECORDS_SUCCEED } from './constants';
+import {
+  RUN_TEST,
+  RUN_TEST_SUCCESS,
+  OPERATION_ERROR,
+  LOAD_RECORDS,
+  LOAD_RECORDS_SUCCEED,
+  DELETE_RECORDS
+} from './constants';
 
 export function runTest(data) {
   return {
@@ -33,4 +40,12 @@ export function loadRecordsSucceed(data) {
     type: LOAD_RECORDS_SUCCEED,
     data,
   };
+}
+
+export function deleteRecords(records, environment) {
+  return {
+    type: DELETE_RECORDS,
+    environment,
+    records,
+  }
 }

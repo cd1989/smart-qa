@@ -3,10 +3,11 @@ package controllers
 import (
 	"net/http"
 	"os/exec"
-
-	log "github.com/sirupsen/logrus"
-	"strconv"
+	"strings"
 	"time"
+
+	"github.com/satori/go.uuid"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -25,15 +26,16 @@ func (c *TestController) Execute() {
 	c.DecodeJSONReq(&request)
 	log.WithField("environment", request.Environment).WithField("suite", request.Suite).Info("Execute test")
 
+	id := strings.Replace(uuid.NewV1().String(), "-", "", -1)
 	idCounter++
 	record := Record{
-		ID:          strconv.FormatInt(idCounter, 10),
+		ID:          id,
 		Environment: request.Environment,
 		Suite:       request.Suite,
 		TestTime:    time.Now(),
 	}
 
-	cmd := exec.Command(TEST_RUNNER, request.Suite)
+	cmd := exec.Command(TEST_RUNNER, request.Suite, id)
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -72,4 +74,18 @@ func (c *TestController) List() {
 
 	c.Data["json"] = results
 	c.ServeJSON()
+}
+
+// Delete record
+func (c *TestController) Delete() {
+	id := c.Ctx.Input.Param(":id")
+	log.WithField("id", id).Debug("Delete test record")
+
+	var remains []Record
+	for _, r := range records {
+		if r.ID != id {
+			remains = append(remains, r)
+		}
+	}
+	records = remains
 }

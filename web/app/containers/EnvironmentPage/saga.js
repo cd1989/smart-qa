@@ -22,7 +22,6 @@ export function* addNew(action) {
 }
 
 export function* deleteEnvs(action) {
-  console.log(action.names);
   try {
     yield* action.names.map(function* (name) {
       yield call(() => axios.delete(`/api/environments/${name}`));

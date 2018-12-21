@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Select, Table} from 'antd';
+import {Button, Icon, Select, Table, Spin} from 'antd';
 import {loadData} from "../EnvironmentPage/actions";
 import {initialState as envInitialState} from "../EnvironmentPage/reducer";
 import {initialState, reducer} from './reducer';
@@ -9,13 +9,9 @@ import {createSelector} from 'reselect';
 import {connect} from "react-redux";
 import {compose} from 'redux';
 import saga from "./saga";
-import {runTest,loadRecords} from './actions';
+import {deleteRecords, loadRecords, runTest} from './actions';
 
 const columns = [{
-  title: 'ID',
-  dataIndex: 'id',
-  render: text => <a href="javascript:;">{text}</a>,
-}, {
   title: '环境',
   dataIndex: 'environment',
 }, {
@@ -24,6 +20,10 @@ const columns = [{
 }, {
   title: '测试时间',
   dataIndex: 'testTime',
+}, {
+  title: '状态',
+  dataIndex: 'succeed',
+  render: (text, record) => record.succeed ? (<Icon type="check"/>) : (<Icon type="close"/>),
 }];
 
 /* eslint-disable react/prefer-stateless-function */
@@ -32,6 +32,7 @@ class ExecutePage extends React.PureComponent {
     envName: "",
     testSuite: "",
     selectedRecordKeys: [],
+    rows: [],
   };
 
   onEnvChange = value => {
@@ -52,26 +53,32 @@ class ExecutePage extends React.PureComponent {
     this.props.dispatch(runTest(this.state));
   };
 
-  onSelectRecordChange = selectedRecordKeys => {
-    this.setState({selectedRecordKeys});
+  onSelectRecordChange = (selectedRecordKeys, rows) => {
+    this.setState({selectedRecordKeys, rows});
+  };
+
+  onRecordsDelete = () => {
+    this.props.dispatch(deleteRecords(this.state.selectedRecordKeys, this.state.envName));
+    this.setState({selectedRecordKeys: []});
   };
 
   render() {
-    const { environments, executes } = this.props;
-    const { selectedRecordKeys } = this.state;
+    const {environments, executes} = this.props;
+    const {envName, testSuite, selectedRecordKeys, rows} = this.state;
+    const suite = rows.length === 0 ? "cargo" : rows[0].suite;
 
     const rowSelection = {
       selectedRowKeys: selectedRecordKeys,
       onChange: this.onSelectRecordChange,
     };
 
-    console.log(executes);
     const data = executes.data.map(e => ({
       key: e.id,
       id: e.id,
       environment: e.environment,
       suite: e.suite,
       testTime: e.testTime,
+      succeed: e.succeed,
     }));
 
     return (
@@ -80,7 +87,7 @@ class ExecutePage extends React.PureComponent {
           <Select
             showSearch
             isRequired={true}
-            style={{width: 320, marginRight: 24}}
+            style={{width: 280, marginRight: 24}}
             placeholder="选择环境"
             optionFilterProp="children"
             onChange={this.onEnvChange}
@@ -95,7 +102,7 @@ class ExecutePage extends React.PureComponent {
           <Select
             showSearch
             isRequired={true}
-            style={{width: 320, marginRight: 24}}
+            style={{width: 280, marginRight: 24}}
             placeholder="选择测试内容"
             optionFilterProp="children"
             onChange={this.onSuiteChange}
@@ -104,15 +111,23 @@ class ExecutePage extends React.PureComponent {
             <Select.Option value='cargo'>镜像仓库</Select.Option>
             <Select.Option value='devops'>流水线</Select.Option>
           </Select>
-          <Button type="primary" onClick={this.onExecute}>开始测试</Button>
+          <Button type="primary" disabled={envName===""||testSuite===""||executes.processing} onClick={this.onExecute}>开始测试</Button>
+          { executes.processing ? <Spin style={{marginLeft: 16}}/>: <span/> }
         </div>
 
         <div>
           <div style={{marginBottom: 16}}>
             <Button
+              href={`/reports/${selectedRecordKeys[0]}/${suite}/report.html`}
+              disabled={selectedRecordKeys.length !== 1}
               type="primary"
-              onClick={this.onNew}>
+              style={{marginRight: 16}}>
               测试报告
+            </Button>
+            <Button
+              disabled={selectedRecordKeys.length === 0}
+              onClick={this.onRecordsDelete}>
+              删除记录
             </Button>
           </div>
           <Table rowSelection={rowSelection} columns={columns} dataSource={data}/>
