@@ -36,12 +36,12 @@ class ExecutePage extends React.PureComponent {
     rows: [],
   };
 
-  onEnvChange = value => {
+  onEnvChange = (value = "") => {
     this.setState({envName: value});
     this.props.dispatch(loadRecords(value));
   };
 
-  onSuiteChange = value => {
+  onSuiteChange = (value = "") => {
     this.setState({testSuite: value});
   };
 
@@ -87,6 +87,7 @@ class ExecutePage extends React.PureComponent {
         <div style={{marginBottom: 32}}>
           <Select
             showSearch
+            allowClear
             isRequired={true}
             style={{width: 280, marginRight: 24}}
             placeholder="选择环境"
@@ -102,6 +103,7 @@ class ExecutePage extends React.PureComponent {
           </Select>
           <Select
             showSearch
+            allowClear
             isRequired={true}
             style={{width: 280, marginRight: 24}}
             placeholder="选择测试内容"
