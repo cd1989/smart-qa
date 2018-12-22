@@ -11,6 +11,7 @@ import {compose} from 'redux';
 import envSaga from "../EnvironmentPage/saga";
 import saga from "./saga";
 import {deleteRecords, loadRecords, runTest} from './actions';
+import { formatTime } from './../util';
 
 const columns = [{
   title: '环境',
@@ -21,6 +22,7 @@ const columns = [{
 }, {
   title: '测试时间',
   dataIndex: 'testTime',
+  render: text => formatTime(text),
 }, {
   title: '状态',
   dataIndex: 'succeed',

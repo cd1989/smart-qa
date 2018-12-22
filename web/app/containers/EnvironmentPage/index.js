@@ -7,6 +7,7 @@ import injectSaga from 'utils/injectSaga';
 import {Button, Modal, Table, Form, Input} from 'antd';
 import {loadData, newEnvironment, deleteEnvironments} from './actions';
 import {initialState, reducer} from './reducer';
+import { formatTime } from './../util';
 
 import saga from './saga';
 
@@ -93,6 +94,7 @@ class EnvironmentPage extends React.Component {
     }, {
       title: '添加时间',
       dataIndex: 'creationTime',
+      render: text => formatTime(text),
     }];
 
     const data = environments.data.map(env => ({
