@@ -19,6 +19,13 @@ const styles = {
   },
 };
 
+const breadcrumbs = {
+  "/": "环境管理",
+  "/environments": "环境管理",
+  "/executes": "执行测试",
+  "/cases": "添加用例",
+}
+
 class App extends React.Component {
   render() {
     const {location} = this.props;
@@ -34,7 +41,7 @@ class App extends React.Component {
           </Sider>
           <Layout style={{padding: '0 24px 24px'}}>
             <Breadcrumb style={{margin: '16px 0'}}>
-              <Breadcrumb.Item>{location.state.name}</Breadcrumb.Item>
+              <Breadcrumb.Item>{breadcrumbs[location.pathname]}</Breadcrumb.Item>
             </Breadcrumb>
             <Content style={{
               background: '#fff', padding: 24, margin: 0, minHeight: 280,

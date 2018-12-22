@@ -90,7 +90,6 @@ class ExecutePage extends React.PureComponent {
           <Select
             showSearch
             allowClear
-            isRequired={true}
             style={{width: 280, marginRight: 24}}
             placeholder="选择环境"
             optionFilterProp="children"
@@ -106,7 +105,6 @@ class ExecutePage extends React.PureComponent {
           <Select
             showSearch
             allowClear
-            isRequired={true}
             style={{width: 280, marginRight: 24}}
             placeholder="选择测试内容"
             optionFilterProp="children"
