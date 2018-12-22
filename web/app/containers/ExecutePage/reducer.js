@@ -16,8 +16,7 @@ export function reducer(state = initialState, action) {
     case RUN_TEST_SUCCESS:
       return state
         .set('processing', false)
-        .set('error', false)
-        .set('data', action.data);
+        .set('error', false);
     case OPERATION_ERROR:
       return state
         .set('processing', false)
