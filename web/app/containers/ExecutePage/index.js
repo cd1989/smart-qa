@@ -1,13 +1,14 @@
 import React from 'react';
 import {Button, Icon, Select, Table, Spin} from 'antd';
 import {loadData} from "../EnvironmentPage/actions";
-import {initialState as envInitialState} from "../EnvironmentPage/reducer";
+import {initialState as envInitialState, reducer as envReducer} from "../EnvironmentPage/reducer";
 import {initialState, reducer} from './reducer';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import {createSelector} from 'reselect';
 import {connect} from "react-redux";
 import {compose} from 'redux';
+import envSaga from "../EnvironmentPage/saga";
 import saga from "./saga";
 import {deleteRecords, loadRecords, runTest} from './actions';
 
@@ -111,7 +112,9 @@ class ExecutePage extends React.PureComponent {
             <Select.Option value='cargo'>镜像仓库</Select.Option>
             <Select.Option value='devops'>流水线</Select.Option>
           </Select>
-          <Button type="primary" disabled={envName===""||testSuite===""||executes.processing} onClick={this.onExecute}>开始测试</Button>
+          <Button type="primary" disabled={envName===""||testSuite===""||executes.processing} onClick={this.onExecute}>
+            {executes.processing ? "正在测试...": "开始测试"}
+          </Button>
           { executes.processing ? <Spin style={{marginLeft: 16}}/>: <span/> }
         </div>
 
@@ -146,12 +149,10 @@ const mapStateToProps = createSelector(
   })
 );
 
-const withReducer = injectReducer({key: 'executes', reducer});
-const withSaga = injectSaga({key: 'executes', saga});
-const withConnect = connect(mapStateToProps);
-
 export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
+  injectReducer({key: 'executes', reducer: reducer}),
+  injectReducer({key: 'environments', reducer: envReducer}),
+  injectSaga({key: 'executes', saga: saga}),
+  injectSaga({key: 'environments', saga: envSaga}),
+  connect(mapStateToProps),
 )(ExecutePage);

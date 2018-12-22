@@ -7,6 +7,7 @@ import {
   DELETE_ENVS } from './constants';
 
 export function loadData() {
+  console.log('loadData action dispatched...');
   return {
     type: LOAD_DATA,
   };

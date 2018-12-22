@@ -32,7 +32,7 @@ export function* deleteEnvs(action) {
   }
 }
 
-export default function* login() {
+export default function* saga() {
   yield takeLatest(LOAD_DATA, fetchData);
   yield takeLatest(ADD_NEW_ENV, addNew);
   yield takeLatest(DELETE_ENVS, deleteEnvs);
