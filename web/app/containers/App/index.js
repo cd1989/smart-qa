@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link, Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import {Breadcrumb, Icon, Layout, Menu} from 'antd';
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
+import {Breadcrumb, Layout} from 'antd';
 import EnvironmentPage from 'containers/EnvironmentPage/Loadable';
 import ExecutePage from 'containers/ExecutePage/Loadable';
 import CasePage from 'containers/CasePage/Loadable';
+import AppMenu from './menu';
 
 const {Header, Content, Sider} = Layout;
 
@@ -28,36 +29,12 @@ class App extends React.Component {
           <div style={styles.logo}>自动测试平台</div>
         </Header>
         <Layout>
-          <Sider width={200} style={{background: '#fff'}}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={[location.pathname === '/'? '/environments': location.pathname]}
-              defaultOpenKeys={['location.pathname']}
-              style={{height: '100%', borderRight: 0}}
-            >
-              <Menu.Item key="/environments">
-                <Link to="/environments">
-                  <Icon type="laptop"/>
-                  <span>环境管理</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="/executes">
-                <Link to="/executes">
-                  <Icon type="play-circle"/>
-                  <span>执行测试</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="/cases">
-                <Link to="/cases">
-                  <Icon type="read"/>
-                  <span>添加用例</span>
-                </Link>
-              </Menu.Item>
-            </Menu>
+        <Sider width={200} style={{background: '#fff'}}>
+            <AppMenu {...{ location }} />
           </Sider>
           <Layout style={{padding: '0 24px 24px'}}>
             <Breadcrumb style={{margin: '16px 0'}}>
-              <Breadcrumb.Item>环境管理</Breadcrumb.Item>
+              <Breadcrumb.Item>{location.state.name}</Breadcrumb.Item>
             </Breadcrumb>
             <Content style={{
               background: '#fff', padding: 24, margin: 0, minHeight: 280,
