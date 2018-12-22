@@ -56,7 +56,7 @@ module.exports = Object.assign(baseConfig, {
     historyApiFallback: true,
     port: 3000,
     proxy: {
-      '/api': 'http://localhost:8080',
+      '/api': 'http://192.168.21.17:8888',
       '/reports': 'http://192.168.21.17:7777',
     }
   }
